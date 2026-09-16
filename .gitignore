@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+
+# Los datos crudos se entregan por separado y nunca se versionan.
+data/data-raw/*
+!data/data-raw/.gitkeep
+
+# Resultados regenerables.
+data/data-processed/*
+!data/data-processed/.gitkeep
+data/data-input-model/*
+!data/data-input-model/.gitkeep
+data/data-model/*
+!data/data-model/.gitkeep

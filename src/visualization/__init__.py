@@ -1,0 +1,1 @@
+"""Análisis exploratorio y visualización."""

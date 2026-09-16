@@ -1,0 +1,1 @@
+"""Cálculos estadísticos del proyecto."""
