@@ -87,20 +87,20 @@ def grafica_hijos(df: pl.DataFrame) -> None:
         conteos["len"].to_list(),
         color=COLOR_AZUL,
     )
-    ax.set_title("Distribución del número de hijas e hijos")
+    ax.set_title("Distribución del número de hijas e hijos", pad=28)
     ax.set_xlabel("Número de hijas e hijos")
     ax.set_ylabel("Registros")
     ax.bar_label(barras, labels=[f"{v:,}" for v in conteos["len"]], padding=3, fontsize=8)
-    ax.text(
-        0.5,
-        1.01,
+    fig.text(
+        0.40,
+        0.02,
         "El valor 0 incluye imputaciones documentadas",
-        transform=ax.transAxes,
-        ha="center",
+        ha="right",
         va="bottom",
         color=COLOR_GRIS,
         fontsize=8,
     )
+    fig.subplots_adjust(top=0.85, bottom=0.12)
     guardar(fig, "03_distribucion_hijos.png")
 
 
