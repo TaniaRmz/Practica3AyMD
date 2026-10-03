@@ -57,6 +57,35 @@ python -m src.analysis.medidas_descriptivas
 La interpretación completa se encuentra en
 `notebooks/02_medidas_descriptivas.ipynb`.
 
+
+Para calcular las medidas heterogeneidad:
+
+```bash
+python -m src.analysis.medidas_heterogeneidad
+```
+
+La interpretación completa se encuentra en
+`notebooks/03_medidas_heterogeneidad.ipynb`.
+
+
+Para calcular las medidas concentracion:
+
+```bash
+python -m src.analysis.concentracion
+```
+
+La interpretación completa se encuentra en
+`notebooks/04_medidas_concentracion.ipynb`.
+
+
+Para Comparaci ́on de gini y entrop ́ıa
+
+```bash
+python -m src.analysis.gini_vs_entropia
+```
+La interpretación completa se encuentra en
+`notebooks/05_gini_vs_entropia.ipynb`.
+
 ## Estructura
 
 - `config/`: rutas centralizadas del proyecto.
