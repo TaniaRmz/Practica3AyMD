@@ -4,7 +4,7 @@ from __future__ import annotations
 import polars as pl
 import numpy as np
 import matplotlib.pyplot as plt
-from config.rutas import ARCHIVO_ENDIREH_PROCESADO
+from config.rutas import ARCHIVO_ENDIREH_PROCESADO,RUTA_FIGURAS
 
 COLUM_ENTIDAD = "nom_entidad" 
 
@@ -54,9 +54,9 @@ def calcular_indices_gini(df: pl.DataFrame, column: str) -> tuple[list[float], l
     print(f"Coeficiente de Gini para {column}: {coeficiente_gini:.4f}")
     print (f"Área bajo la curva de Lorenz: {area_bajo_lorenz:.4f}")
     print ( df_lorenz)
-    return x_lorenz, y_lorenz
+    graficar_curva_lorenz(x_lorenz, y_lorenz, coeficiente_gini)
 
-def graficar_curva_lorenz(x: list[float], y: list[float], title: str) -> None:
+def graficar_curva_lorenz(x: list[float], y: list[float], coeficiente_gini) -> None:
 
     # 4. Graficar la Curva de Lorenz
     plt.figure(figsize=(8, 6))
@@ -74,13 +74,20 @@ def graficar_curva_lorenz(x: list[float], y: list[float], title: str) -> None:
     plt.ylabel("Proporción acumulada de Casos Ponderados")
     plt.legend()
     plt.grid(True, linestyle=":", alpha=0.6)
-    #plt.savefig("curva_lorenz.png", dpi=300, bbox_inches="tight")
+    guardar(plt, "08_curva_lorenz.png")
     plt.close() 
+
+def guardar(figura: plt.Figure, nombre: str) -> None:
+    """Guarda y cierra una figura, evitando estado global acumulado."""
+    RUTA_FIGURAS.mkdir(parents=True, exist_ok=True)
+    figura.tight_layout()
+    figura.savefig(RUTA_FIGURAS / nombre, bbox_inches="tight", facecolor="white")
 
 
 def main()-> None:
     df = cargar_datos()
     calcular_indices_gini(df,COLUM_ENTIDAD)
+
 
 
 
