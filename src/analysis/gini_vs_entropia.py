@@ -8,7 +8,7 @@ import polars as pl
 from config.rutas import ARCHIVO_ENDIREH_PROCESADO
 
 
-VARIABLE = "estado_civil_desc" 
+VARIABLE = "estado_civil_id" 
 
 def cargar_datos() -> pl.DataFrame:
     """Carga el conjunto procesado y validado."""

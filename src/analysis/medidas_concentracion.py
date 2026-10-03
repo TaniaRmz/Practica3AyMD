@@ -14,7 +14,7 @@ def cargar_datos() -> pl.DataFrame:
     return pl.read_parquet(ARCHIVO_ENDIREH_PROCESADO)
 
 
-def calcular_indices_gini(df: pl.DataFrame, column: str) -> tuple[list[float], list[float]]:
+def calcular_indices_gini(df: pl.DataFrame, column: str, show = True) -> tuple[list[float], list[float]]:
     """ Calcula el Coeficiente de Gini para una variable categórica
         ponderada por el factor de expansión.
     """
@@ -54,9 +54,9 @@ def calcular_indices_gini(df: pl.DataFrame, column: str) -> tuple[list[float], l
     print(f"Coeficiente de Gini para {column}: {coeficiente_gini:.4f}")
     print (f"Área bajo la curva de Lorenz: {area_bajo_lorenz:.4f}")
     print ( df_lorenz)
-    graficar_curva_lorenz(x_lorenz, y_lorenz, coeficiente_gini)
+    graficar_curva_lorenz(x_lorenz, y_lorenz, coeficiente_gini, show = show)
 
-def graficar_curva_lorenz(x: list[float], y: list[float], coeficiente_gini) -> None:
+def graficar_curva_lorenz(x: list[float], y: list[float], coeficiente_gini, show = False) -> None:
 
     # 4. Graficar la Curva de Lorenz
     plt.figure(figsize=(8, 6))
@@ -73,6 +73,8 @@ def graficar_curva_lorenz(x: list[float], y: list[float], coeficiente_gini) -> N
     plt.xlabel("Proporción acumulada de Entidades Federativas")
     plt.ylabel("Proporción acumulada de Casos Ponderados")
     plt.legend()
+    if show:
+        plt.show()
     plt.grid(True, linestyle=":", alpha=0.6)
     guardar(plt, "08_curva_lorenz.png")
     plt.close() 
@@ -86,7 +88,7 @@ def guardar(figura: plt.Figure, nombre: str) -> None:
 
 def main()-> None:
     df = cargar_datos()
-    calcular_indices_gini(df,COLUM_ENTIDAD)
+    calcular_indices_gini(df,COLUM_ENTIDAD, show = False)
 
 
 
