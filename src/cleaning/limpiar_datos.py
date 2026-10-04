@@ -6,6 +6,7 @@ import polars as pl
 
 from config.rutas import (
     ARCHIVO_ENDIREH_PROCESADO,
+    ARCHIVO_ENDIREH_PROCESADO_CSV,
     ARCHIVO_ENDIREH_RAW,
     RUTA_DATA_PROCESSED,
 )
@@ -210,6 +211,7 @@ def main() -> None:
 
     RUTA_DATA_PROCESSED.mkdir(parents=True, exist_ok=True)
     df_limpio.write_parquet(ARCHIVO_ENDIREH_PROCESADO, compression="zstd")
+    df_limpio.write_csv(ARCHIVO_ENDIREH_PROCESADO_CSV)
 
     print("=== AUDITORIA DE LIMPIEZA ===")
     for metrica, valor in auditoria.items():

@@ -7,3 +7,5 @@ pandas==3.0.5
 scikit-learn==1.9.1
 mlxtend==0.25.0
 jupyter==1.1.1
+scipy==1.18.1
+reportlab==5.0.1
