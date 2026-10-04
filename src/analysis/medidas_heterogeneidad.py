@@ -148,6 +148,8 @@ def generar_grafica_iqv(df_resultado: pl.DataFrame, show = False) -> None:
       "[INFO] Gráfica de barras de IQV guardada exitosamente como"
       " 'barras_iqv.png'"
   )
+  if show:
+    plt.show()
   plt.close()
 
 def main()-> None:
