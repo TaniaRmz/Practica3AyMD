@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 import polars as pl
+from scipy.stats import variation
+from src.analysis.indices import cuantil_ponderado
 
 from config.rutas import ARCHIVO_ENDIREH_PROCESADO
 
@@ -48,6 +50,10 @@ def medidas_localizacion(df: pl.DataFrame) -> pl.DataFrame:
                 "media_simple": serie.mean(),
                 "media_ponderada": media_ponderada(df, variable),
                 "mediana_q2": serie.median(),
+                "mediana_ponderada": cuantil_ponderado(
+                    df.select(variable, "factor_expansion").drop_nulls()[variable].to_numpy(),
+                    df.select(variable, "factor_expansion").drop_nulls()["factor_expansion"].to_numpy(),
+                ),
                 "moda": formato_moda(serie),
                 "p10": serie.quantile(0.10, interpolation="linear"),
                 "q1": serie.quantile(0.25, interpolation="linear"),
@@ -78,7 +84,7 @@ def medidas_variabilidad(df: pl.DataFrame) -> pl.DataFrame:
                 "rango": maximo - minimo,
                 "varianza_muestral": float(serie.var(ddof=1)),
                 "desviacion_estandar": desviacion,
-                "coeficiente_variacion_pct": desviacion / media * 100,
+                "coeficiente_variacion_pct": float(variation(serie.to_numpy(), ddof=1) * 100),
                 "iqr": q3 - q1,
             }
         )
@@ -107,7 +113,7 @@ def comparacion_por_violencia(df: pl.DataFrame) -> pl.DataFrame:
                     "rango": float(serie.max()) - float(serie.min()),
                     "varianza_muestral": float(serie.var(ddof=1)),
                     "desviacion_estandar": desviacion,
-                    "coeficiente_variacion_pct": desviacion / media * 100,
+                    "coeficiente_variacion_pct": float(variation(serie.to_numpy(), ddof=1) * 100),
                     "iqr": q3 - q1,
                 }
             )
@@ -133,7 +139,7 @@ def validar_resultados(
     for tabla in [localizacion, variabilidad, comparacion]:
         for columna, tipo in tabla.schema.items():
             if tipo.is_float():
-                assert not tabla[columna].is_nan().any()
+                assert tabla[columna].is_finite().all()
 
 
 def main() -> None:
